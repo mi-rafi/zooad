@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package main;
+
+option go_package = "internal/transport/grpc";
+
+service AnimalService {
+    rpc GetAnimal (AnimalRequest) returns (AnimalResponse);
+    rpc List (ListAnimalsRequest) returns (AnimalsResponse);
+}
+
+
+//Структура животного
+message AnimalType{
+    int64 id = 1;
+    string name = 2;
+    string description = 3;
+    int32 age = 4;
+    Gender rainbowSex = 5;
+    Species type = 6;
+}
+
+message AnimalResponse {
+    AnimalType animalType = 1;
+}
+
+message AnimalRequest {
+    int64 id = 1;
+}
+
+message AnimalsResponse {
+    // List of disks.
+    repeated AnimalResponse Animal = 1;
+    // Token of the next page.
+   string next_page_token = 2;
+}
+
+message PaginateAnimals{
+ 
+   // Maximum number of results per page.
+   int64 page_size = 2;
+
+   // Token of the requested result page.
+   string page_token = 3;
+}
+
+message ListAnimalsRequest {
+    PaginateAnimals paginateAnimals = 1;
+}
+
+
+//Пол и тип животных
+enum Gender {
+  MAN = 0;
+  FEMALE = 1;
+}
+
+enum Species {
+    CAT = 0;
+    DOG = 1;
+    RAT = 2;
+}
+
+
